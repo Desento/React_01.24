@@ -5,6 +5,7 @@ import { Button } from './components/button.jsx'
 import './QuizSettingsScreen.css'
 
 export const QuizSettingsScreen = () => {
+
   return (
     <div className="container">
       <InputNumberOfQuestions className="InputNumberOfQuestions SettingScreen" />
