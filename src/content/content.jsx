@@ -207,4 +207,15 @@ const question = {
   ]
 }
 
-export { typeOfCategory, typeOfDifficulty, typeOfAnswers, typeOfTime, arrayOfQuestions, question }
+const result = {
+  totalQuestions: 10,
+  correctAnswers: 7,
+  quizConfig: {
+    type: 'multiple',
+    category: 'Science & Nature',
+    difficulty: 'hard',
+    time: 300,
+  },
+};
+
+export { typeOfCategory, typeOfDifficulty, typeOfAnswers, typeOfTime, arrayOfQuestions, question, result }

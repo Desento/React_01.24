@@ -1,4 +1,4 @@
-import { question } from './content/content.jsx'
+import { arrayOfQuestions } from './content/content.jsx'
 import { QuizQuestion } from './components/QuizQuestion.jsx'
 import './MainQiuzScreen.css'
 import { useState } from 'react'
@@ -15,18 +15,19 @@ export const MainQuizScreen = () => {
   const [counterOfQuestions, setCounterOfQuestions] = useState(0)
 
   const handleNextQuestion = () => {
-    setCounterOfQuestions((prevCounter) => prevCounter + 1)
+    setCounterOfQuestions((prev) => prev + 1)
   }
 
   return (
     <div className="container">
-      {counterOfQuestions < question.results.length ? (
+      {counterOfQuestions < arrayOfQuestions.results.length ? (
         <QuizQuestion
-          question={question.results[counterOfQuestions]}
-          totalQuestions={question.results.length}
+          question={arrayOfQuestions.results[counterOfQuestions]}
+          totalQuestions={arrayOfQuestions.results.length}
           onAnswer={handleAnswer}
           onEndQuiz={handleEndQuiz}
-          onNextQuestion={handleNextQuestion}
+          onNextQuestion={() => handleNextQuestion()}
+          counterOfQuestions={counterOfQuestions}
         />
       ) : (
         <p>Quiz completed</p>

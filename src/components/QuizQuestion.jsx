@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { AnswerButtons } from './AnswerButtons';
+import { Button } from './button';
 
-export const QuizQuestion = ({ question, totalQuestions, onAnswer, onEndQuiz, onNextQuestion }) => {
+export const QuizQuestion = ({ question, totalQuestions, onAnswer, onEndQuiz, onNextQuestion, counterOfQuestions }) => {
     const [timer, setTimer] = useState(300);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
 
     useEffect(() => {
         const timerInterval = setInterval(() => {
@@ -14,10 +14,10 @@ export const QuizQuestion = ({ question, totalQuestions, onAnswer, onEndQuiz, on
     }, []);
 
     const handleAnswerClick = (answer) => {
-        setSelectedAnswer(answer);
         onAnswer(answer);
         onNextQuestion();
     };
+
 
     const handleEndQuiz = () => {
         onEndQuiz();
@@ -26,7 +26,7 @@ export const QuizQuestion = ({ question, totalQuestions, onAnswer, onEndQuiz, on
     return (
         <div className="quiz-question">
             <p className="question-text">{question.question}</p>
-            <p className="question-info">Question {selectedAnswer !== null ? totalQuestions : totalQuestions - 1} out of {totalQuestions}</p>
+            <p className="question-info">Question {counterOfQuestions + 1} out of {totalQuestions}</p>
             <p className="timer">Timer: {Math.floor(timer / 60)}:{timer % 60 < 10 ? `0${timer % 60}` : timer % 60}</p>
 
             <AnswerButtons
@@ -34,13 +34,13 @@ export const QuizQuestion = ({ question, totalQuestions, onAnswer, onEndQuiz, on
                 handleAnswerClick={handleAnswerClick}
                 timer={timer}
             />
-            <button
+            <Button
+                text="End Quiz"
                 className="end-quiz-button"
                 onClick={handleEndQuiz}
                 disabled={timer === 0}
             >
-                End Quiz
-            </button>
+            </Button>
         </div>
     );
 };
