@@ -8,7 +8,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.SettingScreen {
+.setting-screen {
     width: 300px;
     padding: 10px;
     margin-bottom: 10px;
@@ -17,14 +17,14 @@
     box-sizing: border-box;
 }
 
-button {
+.setting-screen-button {
     background-color: #007bff;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-button:hover {
+.setting-screen-button:hover {
     background-color: #0056b3;
 }
 
