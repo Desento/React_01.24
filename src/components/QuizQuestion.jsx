@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react';
 import { AnswerButtons } from './AnswerButtons';
 import { Button } from './button';
+import { ModalFinishQuiz } from '../modal/ModalFinish.jsx'
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../navigation/routes';
 
-export const QuizQuestion = ({ question, totalQuestions, onAnswer, onEndQuiz, onNextQuestion, counterOfQuestions }) => {
+export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counterOfQuestions }) => {
     const [timer, setTimer] = useState(300);
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate()
+    const showResult = () => navigate(ROUTES.result)
 
     useEffect(() => {
         const timerInterval = setInterval(() => {
@@ -12,15 +18,23 @@ export const QuizQuestion = ({ question, totalQuestions, onAnswer, onEndQuiz, on
 
         return () => clearInterval(timerInterval);
     }, []);
+    
+    useEffect(() => {
+        if (timer === 0) {
+            showResult();
+        }
+    }, [timer]);
 
     const handleAnswerClick = (answer) => {
-        onAnswer(answer);
-        onNextQuestion();
+        if (counterOfQuestions === totalQuestions - 1) {
+            showResult();
+        } else {
+            onNextQuestion();
+        }
     };
 
-
-    const handleEndQuiz = () => {
-        onEndQuiz();
+    const handleContinueQuiz = () => {
+        setShowModal(false);
     };
 
     return (
@@ -37,10 +51,16 @@ export const QuizQuestion = ({ question, totalQuestions, onAnswer, onEndQuiz, on
             <Button
                 text="End Quiz"
                 className="end-quiz-button"
-                onClick={handleEndQuiz}
+                onClick={() => setShowModal(true)}
                 disabled={timer === 0}
-            >
-            </Button>
+            />
+            {showModal && (
+                <ModalFinishQuiz
+                    onCancel={handleContinueQuiz}
+                    onConfirm={showResult}
+                />
+            )}
+
         </div>
     );
 };

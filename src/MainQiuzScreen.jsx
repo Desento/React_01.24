@@ -4,14 +4,6 @@ import './MainQiuzScreen.css'
 import { useState } from 'react'
 
 export const MainQuizScreen = () => {
-  const handleAnswer = (answer) => {
-    console.log(`Selected answer: ${answer}`)
-  }
-
-  const handleEndQuiz = () => {
-    console.log('Quiz ended')
-  }
-
   const [counterOfQuestions, setCounterOfQuestions] = useState(0)
 
   const handleNextQuestion = () => {
@@ -20,18 +12,12 @@ export const MainQuizScreen = () => {
 
   return (
     <div className="container">
-      {counterOfQuestions < arrayOfQuestions.results.length ? (
-        <QuizQuestion
-          question={arrayOfQuestions.results[counterOfQuestions]}
-          totalQuestions={arrayOfQuestions.results.length}
-          onAnswer={handleAnswer}
-          onEndQuiz={handleEndQuiz}
-          onNextQuestion={() => handleNextQuestion()}
-          counterOfQuestions={counterOfQuestions}
-        />
-      ) : (
-        <p>Quiz completed</p>
-      )}
+      <QuizQuestion
+        question={arrayOfQuestions.results[counterOfQuestions]}
+        totalQuestions={arrayOfQuestions.results.length}
+        onNextQuestion={handleNextQuestion}
+        counterOfQuestions={counterOfQuestions}
+      />
     </div>
   )
 }
