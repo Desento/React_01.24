@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-export const InputNumberOfQuestions = forwardRef(({ className }, ref) => {
+export const InputNumberOfQuestions = ({ className, value, onChange }) => {
 
   return (
     <div className={className}>
@@ -8,9 +8,10 @@ export const InputNumberOfQuestions = forwardRef(({ className }, ref) => {
       <input
         type="text"
         id="numberInput"
-        ref={ref}
+        value={value}
+        onChange={onChange}
         placeholder="Enter a number"
       />
     </div>
   );
-});
+};

@@ -11,7 +11,6 @@ import { setAmount } from './redux/reducers/configurationReduser/index.js'
 
 export const QuizSettingsScreen = () => {
   const state = useSelector(state => state.configuration.amount)
-  const refAmount = useRef();
   const refCategoty = useRef();
   const refDifficulty = useRef();
   const refType = useRef();
@@ -21,14 +20,17 @@ export const QuizSettingsScreen = () => {
 
 
   const handleGoQuiz = () => {
-    console.log(refAmount.current.value);
-    dispatch(setAmount(refAmount.current.value));
     console.log(`state amount: ${state}`);
     // navigate(ROUTES.quiz)
   }
+
+  const onChangeInputNumberQuestions = (e) => {
+    dispatch(setAmount(e.target.value))
+  }
+
   return (
     <div className="container">
-      <InputNumberOfQuestions className="InputNumberOfQuestions setting-screen" ref={refAmount} />
+      <InputNumberOfQuestions className="InputNumberOfQuestions setting-screen" value={state} onChange={onChangeInputNumberQuestions} />
       <Select props={typeOfCategory} className="setting-screen" />
       <Select props={typeOfDifficulty} className="setting-screen" />
       <Select props={typeOfAnswers} className="setting-screen" />
