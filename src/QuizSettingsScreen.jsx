@@ -1,40 +1,56 @@
 import { InputNumberOfQuestions } from './components/inputNumberOfQuestions.jsx'
-import { typeOfCategory, typeOfDifficulty, typeOfAnswers, typeOfTime } from './content/content.jsx'
+import { typeOfDifficulty, typeOfAnswers, typeOfTime } from './content/content.jsx'
 import { Select } from './components/select.jsx'
 import { Button } from './components/button.jsx'
 import './QuizSettingsScreen.css'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { ROUTES } from './navigation/routes.jsx'
-import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAmount } from './redux/reducers/configurationReduser/index.js'
+import { setAmount, setCategory, setDifficulty, setTime, setType } from './redux/reducers/configurationReduser/index.js'
+import { useGetCategoryOfQuestionsQuery } from './redux/reducers/questionsQuery/reduser.js'
 
 export const QuizSettingsScreen = () => {
-  const state = useSelector(state => state.configuration.amount)
-  const refCategoty = useRef();
-  const refDifficulty = useRef();
-  const refType = useRef();
-  const refTime = useRef();
-  const navigate = useNavigate()
+  const state = useSelector(state => state.configuration)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { data, isError, isLoading } = useGetCategoryOfQuestionsQuery()
+
+  if (isError) return <p>Error</p>
+  if (isLoading) return <p>Loading...</p>
 
 
   const handleGoQuiz = () => {
-    console.log(`state amount: ${state}`);
-    // navigate(ROUTES.quiz)
+    console.log({ state });
+    navigate(ROUTES.quiz)
   }
 
   const onChangeInputNumberQuestions = (e) => {
-    dispatch(setAmount(e.target.value))
+    dispatch(setAmount(e.target.value));
+  }
+
+  const onChangeCategory = (e) => {
+    dispatch(setCategory(e));
+  }
+
+  const onChangeDifficulty = (e) => {
+    dispatch(setDifficulty(e))
+  }
+
+  const onChangeType = (e) => {
+    dispatch(setType(e))
+  }
+
+  const onChangeTime = (e) => {
+    dispatch(setTime(e))
   }
 
   return (
     <div className="container">
-      <InputNumberOfQuestions className="InputNumberOfQuestions setting-screen" value={state} onChange={onChangeInputNumberQuestions} />
-      <Select props={typeOfCategory} className="setting-screen" />
-      <Select props={typeOfDifficulty} className="setting-screen" />
-      <Select props={typeOfAnswers} className="setting-screen" />
-      <Select props={typeOfTime} className="setting-screen" />
+      <InputNumberOfQuestions className="InputNumberOfQuestions setting-screen" value={state.amount} onChange={onChangeInputNumberQuestions} />
+      <Select props={data} className="setting-screen" onChange={onChangeCategory} selectedValue={state.category} />
+      <Select props={typeOfDifficulty} className="setting-screen" onChange={onChangeDifficulty} selectedValue={state.difficulty} />
+      <Select props={typeOfAnswers} className="setting-screen" onChange={onChangeType} selectedValue={state.type} />
+      <Select props={typeOfTime} className="setting-screen" onChange={onChangeTime} selectedValue={state.time} />
       <Button
         onClick={handleGoQuiz}
         text={'Start quiz'}

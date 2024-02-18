@@ -1,12 +1,41 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { configurationReducer } from './reducers/configurationReduser'
 
-const combinedReduser = {
+import { configurationReducer } from './reducers/configurationReduser'
+import { quizApi } from './reducers/questionsQuery/reduser'
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+
+const combinedReducers = combineReducers({
     configuration: configurationReducer,
-    // questions: questionsReduser,
-    // result: resultReduser
+    [quizApi.reducerPath]: quizApi.reducer
+});
+
+const persistConfig = {
+    key: 'root',
+    storage,
 }
 
+const persistedReducer = persistReducer(persistConfig, combinedReducers)
+
 export const store = configureStore({
-    reducer: combinedReduser
+    reducer: persistedReducer,
+    middleware: (gDM) =>
+        gDM({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+            }
+        }).concat(quizApi.middleware)
 })
+
+export const persistor = persistStore(store)
+

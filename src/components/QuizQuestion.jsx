@@ -4,9 +4,11 @@ import { Button } from './button';
 import { ModalFinishQuiz } from '../modal/ModalFinish.jsx'
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../navigation/routes';
+import { useSelector } from 'react-redux';
 
 export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counterOfQuestions }) => {
-    const [timer, setTimer] = useState(300);
+    const time = useSelector(state => state.configuration.time)
+    const [timer, setTimer] = useState(time * 60);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate()
     const showResult = () => navigate(ROUTES.result)
@@ -15,10 +17,9 @@ export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counter
         const timerInterval = setInterval(() => {
             setTimer(prevTimer => (prevTimer > 0 ? prevTimer - 1 : 0));
         }, 1000);
-
         return () => clearInterval(timerInterval);
     }, []);
-    
+
     useEffect(() => {
         if (timer === 0) {
             showResult();
@@ -36,7 +37,7 @@ export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counter
     const handleContinueQuiz = () => {
         setShowModal(false);
     };
-
+    console.log(question)
     return (
         <div className="quiz-question">
             <p className="question-text">{question.question}</p>

@@ -27,9 +27,16 @@ const configurationSlice = createSlice({
         setTime(state, action) {
             state.time = action.payload
         },
+        resetState(state) {
+            state.amount = ''
+            state.category = ''
+            state.difficulty = ''
+            state.type = ''
+            state.time = ''
+        }
     }
 })
 
 export const configurationReducer = configurationSlice.reducer
 
-export const { setAmount, setCategory, setDifficulty, setType, setTime } = configurationSlice.actions
+export const { setAmount, setCategory, setDifficulty, setType, setTime, resetState } = configurationSlice.actions

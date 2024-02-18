@@ -3,14 +3,22 @@ import { Button } from './components/button'
 import './QuizResultScreen.css'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from './navigation/routes'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetState } from './redux/reducers/configurationReduser/index.js'
 
 export const QuizResultScreen = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const state = useSelector(state => state.configuration)
+
+
   const handleRestartQuiz = () => {
     navigate(ROUTES.quiz)
   }
   const handleGoQuiz = () => {
+    dispatch(resetState())
     navigate(ROUTES.root)
+    console.log(state)
   }
 
   return (
