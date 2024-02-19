@@ -7,3 +7,25 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.quiz-button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.quiz-button:hover {
+    background-color: #0056b3;
+}
+
+.modal {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}

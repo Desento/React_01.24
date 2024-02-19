@@ -12,14 +12,12 @@ export const QuizResultScreen = () => {
   const dispatch = useDispatch()
   const state = useSelector((state) => state.configuration)
   const results = useSelector((state) => state.results)
-  const statistics = useSelector((state) => state.statistics)
 
   const handleRestartQuiz = () => {
     navigate(ROUTES.quiz)
   }
   const handleGoQuiz = () => {
     dispatch(setStatistics(results))
-    console.log(statistics)
     dispatch(resetState())
     dispatch(resetResult())
     navigate(ROUTES.root)
@@ -32,21 +30,23 @@ export const QuizResultScreen = () => {
       difficulty: state.difficulty === '' ? 'Any' : state.difficulty
     }
   })()
-  console.log(refactoring)
 
   return (
     <div className="container">
       <div className="quiz-result">
         <h2>Thank you for completing this quiz!</h2>
         <p>{`You answered ${results.correctAnswers} out of ${state.amount} questions correctly.`}</p>
-        <p>{`Quiz Configuration: Type - ${refactoring.type}, Category - ${refactoring.category}, Difficulty - ${refactoring.difficulty}, Time - ${state.time * 60} seconds`}</p>
+        <p>{`Quiz Configuration: Type - ${refactoring.type}, Category - ${
+          refactoring.category
+        }, Difficulty - ${refactoring.difficulty}, Time - ${state.time * 60} seconds`}</p>
         <p>{`Time taken to answer all questions: ${results.quizDuration} seconds`}</p>
-
-        <Button text="Restart" className="qiuz-result-button" onClick={handleRestartQuiz}></Button>
-        <Button
-          text="Choose another quiz"
-          className="qiuz-result-button"
-          onClick={handleGoQuiz}></Button>
+        <div className="buttons">
+          <Button text="Restart" className="quiz-button" onClick={handleRestartQuiz}></Button>
+          <Button
+            text="Choose another quiz"
+            className="quiz-button"
+            onClick={handleGoQuiz}></Button>
+        </div>
       </div>
     </div>
   )

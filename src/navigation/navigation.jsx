@@ -3,7 +3,7 @@ import { QuizSettingsScreen } from "../QuizSettingsScreen";
 import { MainQuizScreen } from "../MainQiuzScreen";
 import { QuizResultScreen } from "../QuizResultScreen";
 import { ROUTES } from "./routes";
-import { ModalFinishQuiz } from "../modal/modalFinish";
+import { QuizStatisticsScreen } from "../QuizStatisticsSreen";
 
 export const router = createBrowserRouter([
     {
@@ -18,5 +18,9 @@ export const router = createBrowserRouter([
     {
         path: ROUTES.result,
         element: <QuizResultScreen />
+    },
+    {
+        path: ROUTES.statistics,
+        element: <QuizStatisticsScreen />
     }
 ])

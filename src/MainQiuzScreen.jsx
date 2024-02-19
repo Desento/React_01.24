@@ -37,7 +37,6 @@ export const MainQuizScreen = () => {
   const handleGoQuiz = () => {
     dispatch(resetState())
     navigate(ROUTES.root)
-    console.log(state)
   }
 
   const { data, isError, isLoading } = useGetQuestionsQuery(string)

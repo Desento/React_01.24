@@ -34,6 +34,10 @@ export const QuizSettingsScreen = () => {
     }
   }
 
+  const handleGoStatistics = () => {
+    navigate(ROUTES.statistics)
+  }
+
   const onChangeInputNumberQuestions = (e) => {
     dispatch(setAmount(e.target.value))
   }
@@ -85,12 +89,12 @@ export const QuizSettingsScreen = () => {
         onChange={onChangeTime}
         selectedValue={state.time}
       />
+      <Button onClick={handleGoQuiz} text={'Start quiz'} className="setting-screen quiz-button" />
       <Button
-        onClick={handleGoQuiz}
-        text={'Start quiz'}
-        className="setting-screen setting-screen-button"
+        onClick={handleGoStatistics}
+        text={'See my statistics'}
+        className="setting-screen quiz-button"
       />
-      <Button text={'See my statistics'} className="setting-screen setting-screen-button" />
       <Outlet />
     </div>
   )

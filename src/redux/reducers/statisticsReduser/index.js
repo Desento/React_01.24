@@ -5,6 +5,7 @@ const initialState = {
     correctAnswers: 0,
     categories: {},
     answerTypes: {},
+    difficulties: {}
 }
 
 export const statisticsSlice = createSlice({
@@ -21,9 +22,15 @@ export const statisticsSlice = createSlice({
             Object.entries(newResults.answerTypes).forEach(([type, count]) => {
                 state.answerTypes[type] = (state.answerTypes[type] || 0) + count;
             });
+            Object.entries(newResults.difficulties).forEach(([difficulty, count]) => {
+                state.difficulties[difficulty] = (state.difficulties[difficulty] || 0) + count;
+            });
+        },
+        setResetStatistics(state) {
+            return { ...initialState }
         }
     }
 });
 
 export const statisticsReducer = statisticsSlice.reducer
-export const { setStatistics } = statisticsSlice.actions;
+export const { setStatistics, setResetStatistics } = statisticsSlice.actions;

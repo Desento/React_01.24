@@ -1,0 +1,34 @@
+.quiz-statistics-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.overall-statistics,
+.category-statistics,
+.difficulty-statistics,
+.type-statistics {
+    margin-bottom: 20px;
+}
+
+.overall-statistics h3,
+.category-statistics h3,
+.difficulty-statistics h3,
+.type-statistics h3 {
+    margin-bottom: 10px;
+}
+
+.category-statistics ul,
+.difficulty-statistics ul,
+.type-statistics ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.category-statistics ul li,
+.difficulty-statistics ul li,
+.type-statistics ul li {
+    margin-bottom: 5px;
+}

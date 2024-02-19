@@ -5,11 +5,10 @@ import { ModalFinishQuiz } from '../modal/ModalFinish.jsx'
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../navigation/routes';
 import { useDispatch, useSelector } from 'react-redux';
-import { addQuizDuration, incrementCategoryCount, incrementAnswerTypeCount, incrementCorrectAnswers, incrementTotalQuestions } from '../redux/reducers/resultReduser/index.js';
+import { setQuizDuration, setCategoryCount, setAnswerTypeCount, setCorrectAnswers, setTotalQuestions, setAnswerDifficulties } from '../redux/reducers/resultReduser/index.js';
 
 export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counterOfQuestions }) => {
     const time = useSelector(state => state.configuration.time)
-    const results = useSelector(state => state.results)
     const dispatch = useDispatch()
     const [timer, setTimer] = useState(time * 60);
     const [showModal, setShowModal] = useState(false);
@@ -30,12 +29,13 @@ export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counter
     }, [timer]);
 
     const handleAnswerClick = (answer, question) => {
-        dispatch(incrementTotalQuestions());
-        if (answer === question.correct_answer) { dispatch(incrementCorrectAnswers()) }
-        dispatch(incrementCategoryCount({ category: question.category }));
-        dispatch(incrementAnswerTypeCount({ answerType: question.type }));
+        dispatch(setTotalQuestions());
+        if (answer === question.correct_answer) { dispatch(setCorrectAnswers()) }
+        dispatch(setCategoryCount({ category: question.category }));
+        dispatch(setAnswerTypeCount({ answerType: question.type }));
+        dispatch(setAnswerDifficulties({ difficulty: question.difficulty }))
         if (counterOfQuestions === totalQuestions - 1) {
-            dispatch(addQuizDuration(time * 60 - timer))
+            dispatch(setQuizDuration(time * 60 - timer))
             showResult();
         } else {
             onNextQuestion(answer, question);
@@ -59,7 +59,7 @@ export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counter
             />
             <Button
                 text="End Quiz"
-                className="end-quiz-button"
+                className="end-quiz-button quiz-button"
                 onClick={() => setShowModal(true)}
                 disabled={timer === 0}
             />
