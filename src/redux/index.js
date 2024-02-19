@@ -1,5 +1,7 @@
 
 import { configurationReducer } from './reducers/configurationReduser'
+import { resultsReducer } from './reducers/resultReduser'
+import { statisticsReducer } from './reducers/statisticsReduser'
 import { quizApi } from './reducers/questionsQuery/reduser'
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import {
@@ -17,7 +19,9 @@ import storage from 'redux-persist/lib/storage';
 
 const combinedReducers = combineReducers({
     configuration: configurationReducer,
-    [quizApi.reducerPath]: quizApi.reducer
+    [quizApi.reducerPath]: quizApi.reducer,
+    results: resultsReducer,
+    statistics: statisticsReducer
 });
 
 const persistConfig = {

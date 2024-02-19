@@ -28,11 +28,7 @@ const configurationSlice = createSlice({
             state.time = action.payload
         },
         resetState(state) {
-            state.amount = ''
-            state.category = ''
-            state.difficulty = ''
-            state.type = ''
-            state.time = ''
+            return { ...initialState };
         }
     }
 })
