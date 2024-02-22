@@ -24,6 +24,16 @@ button {
     background-color: #0056b3;
 }
 
+.question-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.result-quiz-question {
+    height: 50px;
+}
+
 .modal {
     width: 80%;
     margin: 0 auto;

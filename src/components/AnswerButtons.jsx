@@ -9,8 +9,7 @@ export const AnswerButtons = ({ answer, handleAnswerClick, timer }) => {
         }
         return array;
     };
-
-    // Используем useMemo для мемоизации перемешанного массива ответов
+    
     const shuffledAnswers = useMemo(() => shuffleArray([...answer.incorrect_answers, answer.correct_answer]), [answer]);
 
     return (

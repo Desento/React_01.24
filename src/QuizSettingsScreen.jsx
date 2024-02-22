@@ -34,6 +34,10 @@ export const QuizSettingsScreen = () => {
     }
   }
 
+  function removeAnyPrefix(str) {
+    return str.startsWith('Any') ? '' : str
+  }
+
   const handleGoStatistics = () => {
     navigate(ROUTES.statistics)
   }
@@ -43,15 +47,15 @@ export const QuizSettingsScreen = () => {
   }
 
   const onChangeCategory = (e) => {
-    dispatch(setCategory(e))
+    dispatch(setCategory(removeAnyPrefix(e)))
   }
 
   const onChangeDifficulty = (e) => {
-    dispatch(setDifficulty(e))
+    dispatch(setDifficulty(removeAnyPrefix(e)))
   }
 
   const onChangeType = (e) => {
-    dispatch(setType(e))
+    dispatch(setType(removeAnyPrefix(e)))
   }
 
   const onChangeTime = (e) => {

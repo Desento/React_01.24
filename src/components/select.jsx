@@ -8,7 +8,7 @@ export const Select = ({ props, className, onChange, selectedValue }) => {
       {props.name && <option>Any {props.name}</option>}
       {!props.name && <option>Any Category</option>}
 
-      {props.data && props.data.map((item) => (
+      {props.data?.map((item) => (
         <option key={item.id} value={item.id}>
           {item.name}
         </option>
