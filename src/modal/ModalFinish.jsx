@@ -1,9 +1,6 @@
 import { Button } from '../components/button';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../navigation/routes';
 
 export const ModalFinishQuiz = ({ onCancel, onConfirm }) => {
-    const navigate = useNavigate();
 
     const handleCancel = () => {
         onCancel();
@@ -14,10 +11,13 @@ export const ModalFinishQuiz = ({ onCancel, onConfirm }) => {
     };
 
     return (
-        <div>
+        <div className='modal'>
             <p> Are you sure?</p>
-            <Button text="Cancel" onClick={handleCancel} />
-            <Button text='Confirm' onClick={handleConfirm} />
+            <div className='buttons'>
+                <Button className='quiz-button' text="Cancel" onClick={handleCancel} />
+                <Button className='quiz-button' text='Confirm' onClick={handleConfirm} />
+            </div>
+
         </div>
     );
 };

@@ -33,9 +33,9 @@ const typeOfDifficulty = {
   name: 'Difficulty',
   id: 'typeOfDifficulty',
   data: [
-    { id: 1, name: 'Easy' },
-    { id: 2, name: 'Medium' },
-    { id: 3, name: 'Hard' }
+    { id: 'easy', name: 'Easy' },
+    { id: 'medium', name: 'Medium' },
+    { id: 'hard', name: 'Hard' }
   ]
 }
 
@@ -43,8 +43,8 @@ const typeOfAnswers = {
   name: 'Type',
   id: 'typeOfAnswers',
   data: [
-    { id: 5, name: 'Multiple Choice' },
-    { id: 6, name: 'True / Falce' }
+    { id: 'multiple', name: 'Multiple Choice' },
+    { id: 'boolean', name: 'True / Falce' }
   ]
 }
 
@@ -52,9 +52,9 @@ const typeOfTime = {
   name: 'Time',
   id: 'typeOfQuetypeOfTimestions',
   data: [
-    { id: 53, name: '1m' },
-    { id: 52, name: '2m' },
-    { id: 51, name: '5m' }
+    { id: 1, name: '1m' },
+    { id: 2, name: '2m' },
+    { id: 5, name: '5m' }
   ]
 }
 const arrayOfQuestions = {

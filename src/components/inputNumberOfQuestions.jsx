@@ -1,15 +1,6 @@
-import { useState } from 'react'
+import { forwardRef } from 'react';
 
-export const InputNumberOfQuestions = ({ className }) => {
-  const [inputValue, setInputValue] = useState('')
-
-  const handleChange = (event) => {
-    const value = event.target.value
-
-    if (!isNaN(value) && value >= 5 && value <= 15) {
-      setInputValue(value)
-    }
-  }
+export const InputNumberOfQuestions = ({ className, value, onChange }) => {
 
   return (
     <div className={className}>
@@ -17,10 +8,10 @@ export const InputNumberOfQuestions = ({ className }) => {
       <input
         type="text"
         id="numberInput"
-        value={inputValue}
-        onChange={handleChange}
+        value={value}
+        onChange={onChange}
         placeholder="Enter a number"
       />
     </div>
-  )
-}
+  );
+};

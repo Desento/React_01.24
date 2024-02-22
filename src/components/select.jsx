@@ -1,9 +1,20 @@
-export const Select = ({ props, className }) => {
+export const Select = ({ props, className, onChange, selectedValue }) => {
+  const handleSelectChange = (e) => {
+    onChange(e.target.value);
+  }
+
   return (
-    <select className={className} name={props.name} id={props.id}>
-      <option>Any {props.name}</option>
-      {props.data.map((item) => (
-        <option key={item.id} value={item.name}>
+    <select className={className} value={selectedValue} onChange={handleSelectChange}>
+      {props.name && <option>Any {props.name}</option>}
+      {!props.name && <option>Any Category</option>}
+
+      {props.data?.map((item) => (
+        <option key={item.id} value={item.id}>
+          {item.name}
+        </option>
+      ))}
+      {!props.data && props.trivia_categories.map((item) => (
+        <option key={item.id} value={item.id}>
           {item.name}
         </option>
       ))}

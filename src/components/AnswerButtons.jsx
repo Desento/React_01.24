@@ -1,29 +1,28 @@
-import { Button } from '../components/button.jsx';
+import { Button } from './button';
+import React, { useMemo } from 'react';
 
 export const AnswerButtons = ({ answer, handleAnswerClick, timer }) => {
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
+    
+    const shuffledAnswers = useMemo(() => shuffleArray([...answer.incorrect_answers, answer.correct_answer]), [answer]);
+
     return (
         <div className="answer-buttons">
-            {answer.incorrect_answers.map((incorrectAnswer, index) => (
+            {shuffledAnswers.map((answerText, index) => (
                 <Button
-                    text={incorrectAnswer}
+                    text={answerText}
                     key={index}
-                    className="answer-button incorrect_answers"
-                    onClick={() => handleAnswerClick(incorrectAnswer)}
+                    className={`answer-button ${answerText === answer.correct_answer ? 'correct_answer' : 'incorrect_answer'}`}
+                    onClick={() => handleAnswerClick(answerText, answer)}
                     disabled={timer === 0}
-                >
-
-                </Button>
-
+                />
             ))}
-            <Button
-                text={answer.correct_answer}
-                key={5}
-                className="answer-button correct_answer"
-                onClick={() => handleAnswerClick(answer.correct_answer)}
-                disabled={timer === 0}
-            >
-
-            </Button>
         </div>
     );
 };
