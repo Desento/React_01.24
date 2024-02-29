@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTES } from './navigation/routes'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetState } from './redux/reducers/configurationReduser/index.js'
-import { resetResult } from './redux/reducers/resultReduser/index.js'
 import { setStatistics } from './redux/reducers/statisticsReduser/index.js'
+import { resetResults } from './redux/reducers/resultsReduser/index.js'
 
 export const QuizResultScreen = () => {
   const navigate = useNavigate()
@@ -14,12 +14,13 @@ export const QuizResultScreen = () => {
   const results = useSelector((state) => state.results)
 
   const handleRestartQuiz = () => {
+    dispatch(resetResults())
     navigate(ROUTES.quiz)
   }
   const handleGoQuiz = () => {
     dispatch(setStatistics(results))
     dispatch(resetState())
-    dispatch(resetResult())
+    dispatch(resetResults())
     navigate(ROUTES.root)
   }
 

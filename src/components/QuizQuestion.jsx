@@ -1,56 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useCycle } from 'framer-motion';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from './button';
 import { ModalFinishQuiz } from '../modal/ModalFinish.jsx';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../navigation/routes';
 import { useDispatch, useSelector } from 'react-redux';
-import { setQuizDuration, setCategoryCount, setAnswerTypeCount, setCorrectAnswers, setTotalQuestions, setAnswerDifficulties } from '../redux/reducers/resultReduser/index.js';
 import AnswerButtons from './AnswerButtons';
+import { Timer } from './Timer.jsx';
+import { ResultQuizQuestion } from './resultQuizQuestion.jsx';
+import { resetResult } from '../redux/reducers/resultReduser/index.js';
 
 export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counterOfQuestions }) => {
-    const time = useSelector(state => state.configuration.time);
+
     const dispatch = useDispatch();
-    const [timer, setTimer] = useState(time * 60);
     const [showModal, setShowModal] = useState(false);
-    const [showAnswerResult, setShowAnswerResult] = useState(false);
-    const [answerResult, setAnswerResult] = useState(null);
-    const [correctAnswer, setCorrectAnswer] = useState('');
+    const [isLastQuestion, setLastQuestion] = useState(false)
+    const [answered, setAnswered] = useState(false);
     const navigate = useNavigate();
     const showResult = () => navigate(ROUTES.result);
-    const [isOpen, handleCycle] = useCycle(false, true);
 
-    useEffect(() => {
-        const timerInterval = setInterval(() => {
-            setTimer(prevTimer => (prevTimer > 0 ? prevTimer - 1 : 0));
-        }, 1000);
-        return () => clearInterval(timerInterval);
-    }, []);
-
-    useEffect(() => {
-        if (timer === 0) {
-            showResult();
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
-    }, [timer]);
-
-    const handleAnswerClick = (answer, question) => {
-        handleCycle()
-        if (answerResult === null) {
-            dispatch(setTotalQuestions());
-            if (answer === question.correct_answer) {
-                dispatch(setCorrectAnswers());
-                setAnswerResult(true);
-            } else {
-                setAnswerResult(false);
-                setCorrectAnswer(question.correct_answer);
-            }
-            dispatch(setCategoryCount({ category: question.category }));
-            dispatch(setAnswerTypeCount({ answerType: question.type }));
-            dispatch(setAnswerDifficulties({ difficulty: question.difficulty }));
-
-            setShowAnswerResult(true);
-        }
+        return array;
     };
+
+    const shuffledAnswers = useMemo(() => shuffleArray([...question?.incorrect_answers, question?.correct_answer]), [question]);
+
+
+    const AnswerButtonClick = () => {
+        setAnswered(true)
+    }
 
     const handleContinueQuiz = () => {
         setShowModal(false);
@@ -58,46 +39,40 @@ export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counter
 
     const handleNextQuestion = () => {
         onNextQuestion();
-        setShowAnswerResult(false);
-        setAnswerResult(null);
+        setAnswered(false)
+        dispatch(resetResult())
+
         if (counterOfQuestions === totalQuestions - 1) {
-            dispatch(setQuizDuration(time * 60 - timer));
+            setLastQuestion(true)
             showResult();
         }
     };
 
     return (
-        <motion.div
+        <div
             className="quiz-question"
-            initial={false}
-            animate={isOpen ? "open" : "closed"}
         >
             <p className="question-text">{question.question}</p>
             <p className="question-info">Question {counterOfQuestions + 1} out of {totalQuestions}</p>
-            <p className="timer">Timer: {Math.floor(timer / 60)}:{timer % 60 < 10 ? `0${timer % 60}` : timer % 60}</p>
-            <div className="result-quiz-question">
-                {showAnswerResult && (
-                    <p>{answerResult ? 'Correct answer!' : `Incorrect. Correct answer: ${correctAnswer}`}</p>
-                )}
-            </div>
+            <Timer dispatchTime={isLastQuestion} />
+            <ResultQuizQuestion />
             <AnswerButtons
-                answer={question}
-                handleAnswerClick={handleAnswerClick}
-                timer={timer}
-                selectedAnswer={answerResult}
+                answers={shuffledAnswers}
+                question={question}
+                onAnswer={AnswerButtonClick}
+                disabled={answered}
             />
             <div className='question-button'>
                 <Button
                     text="End Quiz"
                     className="end-quiz-button quiz-button"
                     onClick={() => setShowModal(true)}
-                    disabled={timer === 0}
                 />
                 <Button
                     text="Next question"
                     className="next-question-button quiz-button"
                     onClick={handleNextQuestion}
-                    disabled={!showAnswerResult || answerResult === null}
+                    disabled={!answered}
                 />
             </div>
 
@@ -108,6 +83,6 @@ export const QuizQuestion = ({ question, totalQuestions, onNextQuestion, counter
                 />
             )}
 
-        </motion.div>
+        </div>
     );
 };
