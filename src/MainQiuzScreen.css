@@ -47,6 +47,7 @@
 
 .answer-button {
     background-color: #4caf50;
+    width: 100%;
 }
 
 .answer-button:disabled {

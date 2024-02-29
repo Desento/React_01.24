@@ -1,28 +1,46 @@
+import { motion } from 'framer-motion';
 import { Button } from './button';
-import React, { useMemo } from 'react';
+import { setAnswerDifficulties, setAnswerTypeCount, setCategoryCount, setCorrectAnswers, setTotalQuestions } from '../redux/reducers/resultsReduser';
+import { setCorrectAnswer, setShowResult } from '../redux/reducers/resultReduser';
+import { useDispatch } from 'react-redux';
 
-export const AnswerButtons = ({ answer, handleAnswerClick, timer }) => {
-    const shuffleArray = (array) => {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+const AnswerButtons = ({ answers, question, onAnswer, disabled }) => {
+    const dispatch = useDispatch();
+
+    const AnswerClick = (answer, question) => {
+        onAnswer();
+        dispatch(setTotalQuestions());
+        if (answer === question.correct_answer) {
+            dispatch(setCorrectAnswers());
+            dispatch(setCorrectAnswer('Correct answer!'));
+        } else {
+            dispatch(setCorrectAnswer(`Incorrect. Correct answer: ${question.correct_answer}`));
         }
-        return array;
-    };
-    
-    const shuffledAnswers = useMemo(() => shuffleArray([...answer.incorrect_answers, answer.correct_answer]), [answer]);
+        dispatch(setShowResult(true));
+        dispatch(setCategoryCount({ category: question.category }));
+        dispatch(setAnswerTypeCount({ answerType: question.type }));
+        dispatch(setAnswerDifficulties({ difficulty: question.difficulty }));
+    }
 
     return (
         <div className="answer-buttons">
-            {shuffledAnswers.map((answerText, index) => (
-                <Button
-                    text={answerText}
-                    key={index}
-                    className={`answer-button ${answerText === answer.correct_answer ? 'correct_answer' : 'incorrect_answer'}`}
-                    onClick={() => handleAnswerClick(answerText, answer)}
-                    disabled={timer === 0}
-                />
+            {answers.map((answerText, index) => (
+                <motion.div
+                    key={`${answerText}_${index}`}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                    <Button
+                        text={answerText}
+                        className={`answer-button`}
+                        onClick={() => AnswerClick(answerText, question)}
+                        disabled={disabled}
+                    />
+                </motion.div>
             ))}
         </div>
     );
 };
+
+export default AnswerButtons;
