@@ -22,7 +22,7 @@ export const MainQuizScreen: React.FC = () => {
     setCounterOfQuestions((prev) => prev + 1)
   }
 
-  const queryString: string = createQuizQuestionsQueryString(state);
+  const queryString: string = createQuizQuestionsQueryString(state)
 
   const handleGoQuiz = () => {
     dispatch(resetState())
