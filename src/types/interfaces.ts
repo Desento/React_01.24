@@ -76,11 +76,11 @@ export interface Results {
 }
 
 export interface ConfigurationState {
-    amount: number | string;
-    category: string;
-    difficulty: string;
-    type: string;
-    time: string | number;
+    amount?: string | number;
+    category?: string;
+    difficulty?: string;
+    type?: string;
+    time?: string | number;
 }
 
 export interface CategoryResponse {
