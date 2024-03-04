@@ -1,10 +1,9 @@
-import { InputNumberOfQuestions } from './components/inputNumberOfQuestions.jsx'
-import { typeOfDifficulty, typeOfAnswers, typeOfTime } from './content/content.jsx'
-import { Select } from './components/select.jsx'
-import { Button } from './components/button.jsx'
 import './QuizSettingsScreen.css'
+import { InputNumberOfQuestions } from './components/inputNumberOfQuestions'
+import { Select } from './components/select'
+import { Button } from './components/button'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { ROUTES } from './navigation/routes.jsx'
+import { ROUTES } from './navigation/routes'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setAmount,
@@ -12,20 +11,22 @@ import {
   setDifficulty,
   setTime,
   setType
-} from './redux/reducers/configurationReduser/index.js'
-import { useGetCategoryOfQuestionsQuery } from './redux/reducers/questionsQuery/reduser.js'
+} from './redux/reducers/configurationReduser'
+import { useGetCategoryOfQuestionsQuery } from './redux/reducers/questionsQuery/reduser'
+import { RootState } from './redux'
+import { typeOfAnswers, typeOfDifficulty, typeOfTime } from './content/content'
 
-export const QuizSettingsScreen = () => {
-  const state = useSelector((state) => state.configuration)
+export const QuizSettingsScreen: React.FC = () => {
+  const state = useSelector((state: RootState) => state.configuration)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { data, isError, isLoading } = useGetCategoryOfQuestionsQuery()
 
   if (isError) return <p>Error</p>
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading || !data) return <p>Loading...</p>
 
   const handleGoQuiz = () => {
-    if (state.amount >= 5 && state.amount <= 15 && state.time) {
+    if (+state.amount >= 5 && +state.amount <= 15 && state.time) {
       navigate(ROUTES.quiz)
     } else {
       alert(
@@ -34,7 +35,7 @@ export const QuizSettingsScreen = () => {
     }
   }
 
-  function removeAnyPrefix(str) {
+  const removeAnyPrefix = (str: string) => {
     return str.startsWith('Any') ? '' : str
   }
 
@@ -42,23 +43,23 @@ export const QuizSettingsScreen = () => {
     navigate(ROUTES.statistics)
   }
 
-  const onChangeInputNumberQuestions = (e) => {
+  const onChangeInputNumberQuestions = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setAmount(e.target.value))
   }
 
-  const onChangeCategory = (e) => {
+  const onChangeCategory = (e: string) => {
     dispatch(setCategory(removeAnyPrefix(e)))
   }
 
-  const onChangeDifficulty = (e) => {
+  const onChangeDifficulty = (e: string) => {
     dispatch(setDifficulty(removeAnyPrefix(e)))
   }
 
-  const onChangeType = (e) => {
+  const onChangeType = (e: string) => {
     dispatch(setType(removeAnyPrefix(e)))
   }
 
-  const onChangeTime = (e) => {
+  const onChangeTime = (e: string) => {
     dispatch(setTime(e))
   }
 
@@ -70,25 +71,25 @@ export const QuizSettingsScreen = () => {
         onChange={onChangeInputNumberQuestions}
       />
       <Select
-        props={data}
+        options={data}
         className="setting-screen"
         onChange={onChangeCategory}
         selectedValue={state.category}
       />
       <Select
-        props={typeOfDifficulty}
+        options={typeOfDifficulty}
         className="setting-screen"
         onChange={onChangeDifficulty}
         selectedValue={state.difficulty}
       />
       <Select
-        props={typeOfAnswers}
+        options={typeOfAnswers}
         className="setting-screen"
         onChange={onChangeType}
         selectedValue={state.type}
       />
       <Select
-        props={typeOfTime}
+        options={typeOfTime}
         className="setting-screen"
         onChange={onChangeTime}
         selectedValue={state.time}

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux";
 import { setQuizDuration } from "../redux/reducers/resultsReduser";
+import { TimerProps } from "../types/interfaces";
 
-export const Timer = ({ dispatchTime }) => {
-    const time = useSelector(state => state.configuration.time);
+
+const Timer: React.FC<TimerProps> = ({ dispatchTime }) => {
+    const time = useSelector((state: RootState) => +state.configuration.time);
     const [timer, setTimer] = useState(time * 60);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const timerInterval = setInterval(() => {
@@ -15,9 +18,13 @@ export const Timer = ({ dispatchTime }) => {
         return () => clearInterval(timerInterval);
     }, []);
 
-    dispatch(setQuizDuration(time * 60 - timer));
+    useEffect(() => {
+        dispatch(setQuizDuration(time * 60 - timer));
+    }, [dispatch, time, timer]);
 
     return (
         <p className="timer">Timer: {Math.floor(timer / 60)}:{timer % 60 < 10 ? `0${timer % 60}` : timer % 60}</p>
     );
 };
+
+export default Timer;

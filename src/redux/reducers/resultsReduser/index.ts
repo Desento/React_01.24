@@ -1,6 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ResultsState, SetAnswerDifficultiesPayload, SetAnswerTypeCountPayload, SetCategoryCountPayload } from "../../../types/interfaces";
 
-const initialState = {
+
+const initialState: ResultsState = {
     totalQuestions: 0,
     correctAnswers: 0,
     categories: {},
@@ -19,27 +21,26 @@ const resultsSlice = createSlice({
         setCorrectAnswers(state) {
             state.correctAnswers++;
         },
-        setCategoryCount(state, action) {
+        setCategoryCount(state, action: PayloadAction<SetCategoryCountPayload>) {
             const { category } = action.payload;
             state.categories[category] = (state.categories[category] || 0) + 1;
         },
-        setAnswerTypeCount(state, action) {
+        setAnswerTypeCount(state, action: PayloadAction<SetAnswerTypeCountPayload>) {
             const { answerType } = action.payload;
             state.answerTypes[answerType] = (state.answerTypes[answerType] || 0) + 1;
         },
-        setAnswerDifficulties(state, action) {
+        setAnswerDifficulties(state, action: PayloadAction<SetAnswerDifficultiesPayload>) {
             const { difficulty } = action.payload;
             state.difficulties[difficulty] = (state.difficulties[difficulty] || 0) + 1;
         },
-        setQuizDuration(state, action) {
+        setQuizDuration(state, action: PayloadAction<number>) {
             state.quizDuration = action.payload;
         },
-        resetResults(state) {
-            return { ...initialState };
+        resetResults() {
+            return initialState;
         }
     }
 });
-
 
 export const resultsReducer = resultsSlice.reducer;
 

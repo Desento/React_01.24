@@ -1,15 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux'
 import './QuizStatisticsSreen.css'
 import { Button } from './components/button'
 import { setResetStatistics } from './redux/reducers/statisticsReduser'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from './navigation/routes'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from './redux'
 
-export const QuizStatisticsScreen = () => {
+export const QuizStatisticsScreen: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const statistics = useSelector((state) => state.statistics)
+  const statistics = useSelector((state: RootState) => state.statistics)
 
   if (!statistics) {
     return <div>Loading...</div>

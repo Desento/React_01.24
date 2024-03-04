@@ -7,13 +7,15 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from './components/button.jsx'
 import { resetState } from './redux/reducers/configurationReduser/index.js'
 import { ROUTES } from './navigation/routes.jsx'
+import { RootState } from './redux/index.js'
+import { Question } from './types/interfaces.js'
 
-export const MainQuizScreen = () => {
+export const MainQuizScreen: React.FC = () => {
   const [counterOfQuestions, setCounterOfQuestions] = useState(0)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const state = useSelector((state) => state.configuration)
+  const state = useSelector((state: RootState) => state.configuration)
 
   const handleNextQuestion = () => {
     setCounterOfQuestions((prev) => prev + 1)
@@ -55,8 +57,14 @@ export const MainQuizScreen = () => {
   return (
     <div className="container">
       <QuizQuestion
-        question={data.results[counterOfQuestions]}
-        totalQuestions={data.results.length}
+        question={
+          (data?.results[counterOfQuestions] as Question) || {
+            question: '',
+            incorrect_answers: [],
+            correct_answer: ''
+          }
+        }
+        totalQuestions={data?.results.length || 0}
         onNextQuestion={handleNextQuestion}
         counterOfQuestions={counterOfQuestions}
       />

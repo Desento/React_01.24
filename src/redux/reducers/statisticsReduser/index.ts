@@ -1,6 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { StatisticsState } from "../../../types/interfaces";
 
-const initialState = {
+
+const initialState: StatisticsState = {
     totalQuestions: 0,
     correctAnswers: 0,
     categories: {},
@@ -12,7 +14,7 @@ export const statisticsSlice = createSlice({
     name: 'statistics',
     initialState,
     reducers: {
-        setStatistics(state, action) {
+        setStatistics(state, action: PayloadAction<StatisticsState>) {
             const newResults = action.payload;
             state.totalQuestions += newResults.totalQuestions;
             state.correctAnswers += newResults.correctAnswers;
@@ -26,11 +28,11 @@ export const statisticsSlice = createSlice({
                 state.difficulties[difficulty] = (state.difficulties[difficulty] || 0) + count;
             });
         },
-        setResetStatistics(state) {
-            return { ...initialState }
+        setResetStatistics() {
+            return initialState;
         }
     }
 });
 
-export const statisticsReducer = statisticsSlice.reducer
+export const statisticsReducer = statisticsSlice.reducer;
 export const { setStatistics, setResetStatistics } = statisticsSlice.actions;
