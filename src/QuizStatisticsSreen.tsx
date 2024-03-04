@@ -1,30 +1,30 @@
-import './QuizStatisticsSreen.css';
-import { Button } from './components/button';
-import { setResetStatistics } from './redux/reducers/statisticsReduser';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from './navigation/routes';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './redux';
+import './QuizStatisticsSreen.css'
+import { Button } from './components/button'
+import { setResetStatistics } from './redux/reducers/statisticsReduser'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from './navigation/routes'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from './redux'
 
 export const QuizStatisticsScreen: React.FC = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const statistics = useSelector((state: RootState) => state.statistics);
+  const statistics = useSelector((state: RootState) => state.statistics)
 
   if (!statistics) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
-  const { totalQuestions, correctAnswers, categories, difficulties, answerTypes } = statistics;
+  const { totalQuestions, correctAnswers, categories, difficulties, answerTypes } = statistics
 
   const handleResetStatistics = () => {
-    dispatch(setResetStatistics());
-  };
+    dispatch(setResetStatistics())
+  }
 
   const handleGoQuiz = () => {
-    navigate(ROUTES.root);
-  };
+    navigate(ROUTES.root)
+  }
 
   return (
     <div className="quiz-statistics-container">
@@ -75,5 +75,5 @@ export const QuizStatisticsScreen: React.FC = () => {
         <Button text="Choose another quiz" className="quiz-button" onClick={handleGoQuiz}></Button>
       </div>
     </div>
-  );
-};
+  )
+}
