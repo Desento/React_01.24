@@ -4,4 +4,6 @@ export const ROUTES = {
     finish: '/quiz/finish',
     result: '/result',
     statistics: '/statistics'
-}
+} as const;
+
+export type RoutePath = typeof ROUTES[keyof typeof ROUTES];

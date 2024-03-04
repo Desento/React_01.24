@@ -1,6 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ResultState, SetCorrectAnswerPayload } from "../../../types/interfaces";
 
-const initialState = {
+
+const initialState: ResultState = {
     showResult: false,
     correctAnswer: ''
 }
@@ -12,11 +14,11 @@ const resultSlice = createSlice({
         setShowResult(state) {
             state.showResult = true
         },
-        setCorrectAnswer(state, action) {
-            state.correctAnswer = action.payload;
+        setCorrectAnswer(state, action: PayloadAction<SetCorrectAnswerPayload>) {
+            state.correctAnswer = action.payload.correctAnswer;
         },
-        resetResult(state) {
-            return { ...initialState };
+        resetResult() {
+            return initialState;
         }
     }
 });

@@ -1,7 +1,6 @@
-import { forwardRef } from 'react';
+import { InputNumberOfQuestionsProps } from "../types/interfaces";
 
-export const InputNumberOfQuestions = ({ className, value, onChange }) => {
-
+export const InputNumberOfQuestions: React.FC<InputNumberOfQuestionsProps> = ({ className, value, onChange }) => {
   return (
     <div className={className}>
       <label htmlFor="numberInput">Enter a number of questions (5-15): </label>

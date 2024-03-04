@@ -1,6 +1,7 @@
 import { Button } from '../components/button';
+import { ModalFinishQuizProps } from '../types/interfaces';
 
-export const ModalFinishQuiz = ({ onCancel, onConfirm }) => {
+export const ModalFinishQuiz: React.FC<ModalFinishQuizProps> = ({ onCancel, onConfirm }) => {
 
     const handleCancel = () => {
         onCancel();
@@ -17,7 +18,6 @@ export const ModalFinishQuiz = ({ onCancel, onConfirm }) => {
                 <Button className='quiz-button' text="Cancel" onClick={handleCancel} />
                 <Button className='quiz-button' text='Confirm' onClick={handleConfirm} />
             </div>
-
         </div>
     );
 };
