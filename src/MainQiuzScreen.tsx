@@ -1,14 +1,15 @@
-import { QuizQuestion } from './components/QuizQuestion.jsx'
+import { QuizQuestion } from './components/QuizQuestion'
 import './MainQiuzScreen.css'
 import { useState } from 'react'
-import { useGetQuestionsQuery } from './redux/reducers/questionsQuery/reduser.js'
+import { useGetQuestionsQuery } from './redux/reducers/questionsQuery/reduser'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Button } from './components/button.jsx'
-import { resetState } from './redux/reducers/configurationReduser/index.js'
-import { ROUTES } from './navigation/routes.jsx'
-import { RootState } from './redux/index.js'
-import { Question } from './types/interfaces.js'
+import { Button } from './components/button'
+import { resetState } from './redux/reducers/configurationReduser/index'
+import { ROUTES } from './navigation/routes'
+import { RootState } from './redux/index'
+import { Question } from './types/interfaces'
+import { createQuizQuestionsQueryString } from './utility/createQuizQuestionsQueryString'
 
 export const MainQuizScreen: React.FC = () => {
   const [counterOfQuestions, setCounterOfQuestions] = useState(0)
@@ -21,27 +22,14 @@ export const MainQuizScreen: React.FC = () => {
     setCounterOfQuestions((prev) => prev + 1)
   }
 
-  const string = (() => {
-    let queryString = 'api.php?'
-
-    if (state.amount) queryString += `amount=${state.amount}&`
-    if (state.category) queryString += `category=${state.category}&`
-    if (state.difficulty) queryString += `difficulty=${state.difficulty}&`
-    if (state.type) queryString += `type=${state.type}&`
-
-    if (queryString.endsWith('&')) {
-      queryString = queryString.slice(0, -1)
-    }
-
-    return queryString
-  })()
+  const queryString: string = createQuizQuestionsQueryString(state);
 
   const handleGoQuiz = () => {
     dispatch(resetState())
     navigate(ROUTES.root)
   }
 
-  const { data, isError, isLoading } = useGetQuestionsQuery(string)
+  const { data, isError, isLoading } = useGetQuestionsQuery(queryString)
 
   if (isError) return <p>Error</p>
   if (isLoading) return <p>Loading...</p>
