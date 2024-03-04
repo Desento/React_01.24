@@ -25,7 +25,7 @@ export interface RootState {
     statistics: StatisticsState;
 }
 
-const combinedReducers = combineReducers<RootState>({
+const combinedReducers = combineReducers({
     configuration: configurationReducer,
     [quizApi.reducerPath]: quizApi.reducer,
     result: resultReducer,
