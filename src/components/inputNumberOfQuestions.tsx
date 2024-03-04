@@ -7,7 +7,7 @@ export const InputNumberOfQuestions: React.FC<InputNumberOfQuestionsProps> = ({ 
       <input
         type="text"
         id="numberInput"
-        value={value}
+        value={value || ''}
         onChange={onChange}
         placeholder="Enter a number"
       />
