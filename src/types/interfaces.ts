@@ -39,8 +39,13 @@ export interface QuizQuestionProps {
     counterOfQuestions: number;
 }
 
+export interface ResultQuizQuestionProps {
+    timerExpired: boolean;
+}
+
 export interface TimerProps {
-    dispatchTime: boolean
+    timerExpired: boolean;
+    setTimerExpired: () => void
 }
 
 export interface ModalFinishQuizProps {
@@ -71,11 +76,11 @@ export interface Results {
 }
 
 export interface ConfigurationState {
-    amount: number | string;
-    category: string;
-    difficulty: string;
-    type: string;
-    time: string | number;
+    amount?: string | number;
+    category?: string;
+    difficulty?: string;
+    type?: string;
+    time?: string | number;
 }
 
 export interface CategoryResponse {

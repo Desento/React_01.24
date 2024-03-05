@@ -18,8 +18,8 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
 }) => {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
-    const [isLastQuestion, setLastQuestion] = useState(false);
     const [answered, setAnswered] = useState(false);
+    const [timerExpired, setTimerExpired] = useState(false);
     const navigate = useNavigate();
     const showResult = () => navigate(ROUTES.result);
 
@@ -49,8 +49,9 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
         setAnswered(false);
         dispatch(resetResult());
 
+        if (timerExpired && answered) { showResult() }
+
         if (counterOfQuestions === totalQuestions - 1) {
-            setLastQuestion(true);
             showResult();
         }
     };
@@ -61,8 +62,8 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
             <p className="question-info">
                 Question {counterOfQuestions + 1} out of {totalQuestions}
             </p>
-            <Timer dispatchTime={isLastQuestion} />
-            <ResultQuizQuestion />
+            <Timer timerExpired={timerExpired} setTimerExpired={() => setTimerExpired(true)} />
+            <ResultQuizQuestion timerExpired={timerExpired} />
             <AnswerButtons
                 answers={shuffledAnswers}
                 question={question}
